@@ -1,0 +1,121 @@
+###############################
+#   ASP.NET CORE / VISUAL STUDIO
+###############################
+
+# Carpeta de configuración de Visual Studio
+.vs/
+
+# Archivos de usuario específicos de VS
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Archivos de build
+bin/
+obj/
+
+# Logs
+*.log
+
+# Archivos temporales de publish
+*.pubxml
+*.publishsettings
+
+# Archivos Autogenerados
+Generated/
+*.ide
+
+###############################
+#   ENTITY FRAMEWORK / SQLITE
+###############################
+
+# Base de datos SQLite
+*.db
+*.db-shm
+*.db-wal
+
+# Backups
+*.bak
+
+###############################
+#   DOTNET
+###############################
+
+# Config archivos secretos
+appsettings.Development.json
+appsettings.Local.json
+
+# Cache NuGet
+.nuget/
+packages/
+
+# Archivos de build
+project.lock.json
+project.fragment.lock.json
+
+###############################
+#   VUE + VITE + NODE
+###############################
+
+# Dependencias Node
+node_modules/
+
+# Build output
+dist/
+build/
+vite.config.ts.timestamp-*
+
+# Archivos de editor
+*.editorconfig
+*.eslintcache
+
+# Archivos de env
+.env
+.env.*.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+###############################
+#   PRIMEVUE / TAILWIND
+###############################
+
+# Cache de postcss / tailwind
+.pnp.*
+.pnp.js
+.cache/
+*.css.map
+
+###############################
+#   SISTEMA OPERATIVO
+###############################
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# MacOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+###############################
+#   GIT
+###############################
+
+# Archivos generados por conflictos
+*.orig
+
+###############################
+#   MISC
+###############################
+
+# Archivos temporales
+*.tmp
+*.temp
+~$*
