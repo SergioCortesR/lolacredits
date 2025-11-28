@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace backLolaCredits.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251127210539_InitialCreate")]
+    [Migration("20251128024636_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -60,16 +60,22 @@ namespace backLolaCredits.Migrations
                     b.Property<decimal>("Amount")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("DueDay")
+                    b.Property<DateOnly>("DueDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("InterestRate")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateOnly>("LoanDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("MonthlyInterest")
-                        .HasColumnType("INTEGER");
+                    b.Property<decimal>("MonthlyAmount")
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("Months")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("PaymentDay")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("PersonId")
@@ -121,19 +127,19 @@ namespace backLolaCredits.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("MiddleName")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Phone")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("SecondLastName")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -141,7 +147,7 @@ namespace backLolaCredits.Migrations
                     b.HasIndex("CI")
                         .IsUnique();
 
-                    b.ToTable("People");
+                    b.ToTable("Persons");
                 });
 
             modelBuilder.Entity("Installment", b =>

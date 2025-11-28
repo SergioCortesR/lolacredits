@@ -9,7 +9,7 @@ public class Installment
     public DateOnly ExpectedPaymentDate { get; set; }
     public decimal ExpectedAmount { get; set; }     // quota for this month
     public decimal PaidAmount { get; set; }         // sum of payments
-    public string Status { get; set; } = "Pending"; // Pending, Partial, Paid
+    public InstallmentStatus Status { get; set; } = InstallmentStatus.Pending;
 
     public ICollection<Payment> Payments { get; set; } = new List<Payment>();
 }
