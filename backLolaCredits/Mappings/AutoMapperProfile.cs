@@ -7,8 +7,9 @@ public class AutoMapperProfile : Profile
         // Person
         CreateMap<PersonCreateDto, Person>();
         CreateMap<Person, PersonReadDto>()
-            .ForMember(dest => dest.FullName, opt =>
-                opt.MapFrom(src => $"{src.Name} {src.LastName} {src.SecondLastName}"));
+            .ForMember(dest => dest.FullName,
+                opt => opt.MapFrom(src => $"{src.Name} {src.LastName} {src.SecondLastName}"));
+
 
         // Loan
         CreateMap<LoanCreateDto, Loan>();
@@ -19,7 +20,7 @@ public class AutoMapperProfile : Profile
                 opt.MapFrom(src => src.Installments.Count(i => i.Status == InstallmentStatus.Paid)))
             .ForMember(dest => dest.PendingInstallments, opt =>
                 opt.MapFrom(src => src.Installments.Count(i => i.Status != InstallmentStatus.Paid)));
-        
+
         CreateMap<Loan, LoanDetailDto>()
             .ForMember(dest => dest.PersonName, opt =>
                 opt.MapFrom(src => $"{src.Person.Name} {src.Person.LastName}"))
