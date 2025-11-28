@@ -2,7 +2,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/installments")]
 public class InstallmentController : ControllerBase
 {
     private readonly InstallmentService _service;
