@@ -7,9 +7,11 @@ public class Loan
 
     public decimal Amount { get; set; }          // principal
     public DateOnly LoanDate { get; set; }
-    public int DueDay { get; set; }              // expected payment day
+    public DateOnly DueDate { get; set; }              // final payment date
     public int Months { get; set; }              // total number of installments
-    public int MonthlyInterest { get; set; }     // percentage
+    public int InterestRate { get; set; }        // percentage
+    public int PaymentDay { get; set; }          // day of month for payments (1-28)
 
+    public decimal MonthlyAmount { get; set; }  // calculated
     public ICollection<Installment> Installments { get; set; } = new List<Installment>();
 }

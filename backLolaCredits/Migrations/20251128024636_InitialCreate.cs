@@ -12,21 +12,21 @@ namespace backLolaCredits.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "People",
+                name: "Persons",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     CI = table.Column<string>(type: "TEXT", nullable: false),
-                    FirstName = table.Column<string>(type: "TEXT", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
                     LastName = table.Column<string>(type: "TEXT", nullable: false),
-                    MiddleName = table.Column<string>(type: "TEXT", nullable: false),
+                    SecondLastName = table.Column<string>(type: "TEXT", nullable: false),
                     Phone = table.Column<string>(type: "TEXT", nullable: true),
                     Email = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_People", x => x.Id);
+                    table.PrimaryKey("PK_Persons", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -38,17 +38,19 @@ namespace backLolaCredits.Migrations
                     PersonId = table.Column<int>(type: "INTEGER", nullable: false),
                     Amount = table.Column<decimal>(type: "TEXT", nullable: false),
                     LoanDate = table.Column<DateOnly>(type: "TEXT", nullable: false),
-                    DueDay = table.Column<int>(type: "INTEGER", nullable: false),
+                    DueDate = table.Column<DateOnly>(type: "TEXT", nullable: false),
                     Months = table.Column<int>(type: "INTEGER", nullable: false),
-                    MonthlyInterest = table.Column<int>(type: "INTEGER", nullable: false)
+                    InterestRate = table.Column<int>(type: "INTEGER", nullable: false),
+                    PaymentDay = table.Column<int>(type: "INTEGER", nullable: false),
+                    MonthlyAmount = table.Column<decimal>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Loans", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Loans_People_PersonId",
+                        name: "FK_Loans_Persons_PersonId",
                         column: x => x.PersonId,
-                        principalTable: "People",
+                        principalTable: "Persons",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -115,8 +117,8 @@ namespace backLolaCredits.Migrations
                 column: "InstallmentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_People_CI",
-                table: "People",
+                name: "IX_Persons_CI",
+                table: "Persons",
                 column: "CI",
                 unique: true);
         }
@@ -134,7 +136,7 @@ namespace backLolaCredits.Migrations
                 name: "Loans");
 
             migrationBuilder.DropTable(
-                name: "People");
+                name: "Persons");
         }
     }
 }

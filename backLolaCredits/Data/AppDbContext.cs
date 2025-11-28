@@ -6,7 +6,7 @@ public class AppDbContext : DbContext
     {
     }
 
-    public DbSet<Person> People { get; set; }
+    public DbSet<Person> Persons { get; set; }
     public DbSet<Loan> Loans { get; set; }
     public DbSet<Installment> Installments { get; set; }
     public DbSet<Payment> Payments { get; set; }
@@ -36,5 +36,10 @@ public class AppDbContext : DbContext
             .WithOne(p => p.Installment)
             .HasForeignKey(p => p.InstallmentId)
             .OnDelete(DeleteBehavior.Cascade);
+        
+        // Store Installment.Status as string in the DB for readability
+        modelBuilder.Entity<Installment>()
+            .Property(i => i.Status)
+            .HasConversion<string>();
     }
 }
