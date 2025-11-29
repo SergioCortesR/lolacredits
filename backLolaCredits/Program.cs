@@ -51,7 +51,7 @@ if (!string.IsNullOrEmpty(productionUrl))
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowLocalhost", builder =>
+    options.AddPolicy("AllowFrontend", builder =>
     {
         builder.WithOrigins(allowedOrigins.ToArray())
                .AllowAnyMethod()
@@ -72,7 +72,14 @@ using (var scope = app.Services.CreateScope())
 app.UseSwagger();
 app.UseSwaggerUI();
 
-app.UseCors("AllowLocalhost");
+app.UseCors("AllowFrontend");
+
+// Auto-migrate database on startup
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    db.Database.Migrate();
+}
 
 app.MapControllers();
 
