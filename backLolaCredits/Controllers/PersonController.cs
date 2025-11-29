@@ -27,10 +27,22 @@ public class PersonController : ControllerBase
 
     // GET: api/person
     [HttpGet]
-    public async Task<ActionResult<List<PersonReadDto>>> GetAll()
+    public async Task<ActionResult<PagedResult<PersonReadDto>>> GetPaged(
+        int page = 1,
+        int pageSize = 10,
+        string? search = null,
+        string? sort = "Name",
+        string? dir = "asc")
     {
-        var persons = await _service.GetAllAsync();
-        return Ok(_mapper.Map<List<PersonReadDto>>(persons));
+        var result = await _service.GetPagedAsync(page, pageSize, search, sort, dir);
+
+        return Ok(new PagedResult<PersonReadDto>
+        {
+            TotalItems = result.TotalItems,
+            Page = result.Page,
+            PageSize = result.PageSize,
+            Items = _mapper.Map<IEnumerable<PersonReadDto>>(result.Items)
+        });
     }
 
     // GET: api/person/5
