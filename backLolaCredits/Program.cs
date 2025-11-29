@@ -1,24 +1,78 @@
+using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Get connection string - Render uses /data for persistent storage
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") 
+    ?? "Data Source=/data/LolaCredits.db";
 
+// Ensure data directory exists (for Render disk)
+var dataDir = Path.GetDirectoryName(connectionString.Replace("Data Source=", ""));
+if (!string.IsNullOrEmpty(dataDir) && !Directory.Exists(dataDir))
+{
+    Directory.CreateDirectory(dataDir);
+}
+
+// EF Core + SQLite
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlite(connectionString)
+);
+
+// Automapper
+builder.Services.AddAutoMapper(typeof(Program));
+
+// Controllers
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+// Services
+builder.Services.AddScoped<PersonService>();
+builder.Services.AddScoped<LoanService>();
+builder.Services.AddScoped<InstallmentService>();
+builder.Services.AddScoped<PaymentService>();
+
+// Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// CORS - Allow frontend origins
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend", builder =>
+    {
+        var allowedOrigins = new List<string>
+        {
+            "http://localhost:5173",
+            "http://localhost:3000"
+        };
+
+        // Add production frontend URL from environment variable
+        var productionUrl = Environment.GetEnvironmentVariable("FRONTEND_URL");
+        if (!string.IsNullOrEmpty(productionUrl))
+        {
+            allowedOrigins.Add(productionUrl);
+        }
+
+        builder.WithOrigins(allowedOrigins.ToArray())
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+    });
+});
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+// Enable Swagger in all environments
+app.UseSwagger();
+app.UseSwaggerUI();
+
+app.UseCors("AllowFrontend");
+
+// Auto-migrate database on startup
+using (var scope = app.Services.CreateScope())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    db.Database.Migrate();
 }
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
 
 app.MapControllers();
 

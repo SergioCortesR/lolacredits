@@ -1,35 +1,54 @@
-@import './base.css';
+@import "tailwindcss";
 
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  font-weight: normal;
+@config "../../tailwind.config.js";
+
+:root {
+  /* Light mode colors - Minimalista con acentos en verde azulado */
+  --color-primary: 14 165 233; /* Sky blue - más suave */
+  --color-primary-dark: 2 132 199;
+  --color-accent: 16 185 129; /* Emerald green */
+  --color-accent-dark: 5 150 105;
+  --color-success: 34 197 94;
+  --color-warning: 251 146 60;
+  --color-danger: 239 68 68;
+  --color-info: 99 102 241;
+  
+  --color-bg-primary: 255 255 255;
+  --color-bg-secondary: 249 250 251;
+  --color-bg-tertiary: 243 244 246;
+  
+  --color-text-primary: 17 24 39;
+  --color-text-secondary: 75 85 99;
+  --color-text-tertiary: 156 163 175;
+  
+  --color-border: 229 231 235;
+  --color-border-hover: 209 213 219;
 }
 
-a,
-.green {
-  text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
-  padding: 3px;
+.dark {
+  /* Dark mode colors - Tonos oscuros con acentos vibrantes */
+  --color-primary: 56 189 248; /* Lighter sky blue for dark mode */
+  --color-primary-dark: 14 165 233;
+  --color-accent: 52 211 153; /* Lighter emerald */
+  --color-accent-dark: 16 185 129;
+  --color-success: 74 222 128;
+  --color-warning: 251 146 60;
+  --color-danger: 248 113 113;
+  --color-info: 129 140 248;
+  
+  --color-bg-primary: 17 24 39; /* Gray-900 */
+  --color-bg-secondary: 31 41 55; /* Gray-800 */
+  --color-bg-tertiary: 55 65 81; /* Gray-700 */
+  
+  --color-text-primary: 243 244 246; /* Gray-100 */
+  --color-text-secondary: 209 213 219; /* Gray-300 */
+  --color-text-tertiary: 156 163 175; /* Gray-400 */
+  
+  --color-border: 55 65 81; /* Gray-700 */
+  --color-border-hover: 75 85 99; /* Gray-600 */
 }
 
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
-  }
-}
-
-@media (min-width: 1024px) {
-  body {
-    display: flex;
-    place-items: center;
-  }
-
-  #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
-  }
+/* Smooth transitions for theme changes */
+html, body, div, aside, header, footer, main, section, nav {
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }
