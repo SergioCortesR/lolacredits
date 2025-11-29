@@ -1,21 +1,7 @@
-import api from '@/axios'
-
-// Get all payments
-export const getPayments = () => {
-  return api.get('api/payments')
-}
-
-// Get payments by loan ID
-export const getPaymentsByLoan = (loanId) => {
-  return api.get(`api/payments/loan/${loanId}`)
-}
-
-// Get payment by ID
-export const getPayment = (id) => {
-  return api.get(`api/payments/${id}`)
-}
+import axios from '@/axios'
 
 // Create new payment
-export const createPayment = (payment) => {
-  return api.post('api/payments', payment)
+export const createPayment = async (paymentData) => {
+  const response = await axios.post('/api/payments', paymentData)
+  return response.data
 }

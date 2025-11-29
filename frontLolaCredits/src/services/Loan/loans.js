@@ -5,16 +5,6 @@ export const getLoans = (params) => {
   return api.get('api/loans', { params })
 }
 
-// Get all loans without pagination
-export const getAllLoans = () => {
-  return api.get('api/loans/all')
-}
-
-// Get loans by person ID
-export const getLoansByPerson = (personId) => {
-  return api.get(`api/loans/person/${personId}`)
-}
-
 // Get loan by ID
 export const getLoan = (id) => {
   return api.get(`api/loans/${id}`)

@@ -51,14 +51,6 @@ public class LoanController : ControllerBase
         });
     }
 
-    // GET: api/loans/all
-    [HttpGet("all")]
-    public async Task<ActionResult<List<LoanReadDto>>> GetAll()
-    {
-        var loans = await _service.GetAllAsync();
-        return Ok(_mapper.Map<List<LoanReadDto>>(loans));
-    }
-
     // GET: api/loan/5
     [HttpGet("{id:int}")]
     public async Task<ActionResult<LoanDetailDto>> GetById(int id)
@@ -70,14 +62,6 @@ public class LoanController : ControllerBase
 
         var response = _mapper.Map<LoanDetailDto>(loan);
         return Ok(response);
-    }
-
-    // GET: api/loan/person/5
-    [HttpGet("person/{personId:int}")]
-    public async Task<ActionResult<List<LoanReadDto>>> GetByPersonId(int personId)
-    {
-        var loans = await _service.GetByPersonIdAsync(personId);
-        return Ok(_mapper.Map<List<LoanReadDto>>(loans));
     }
 
     // PUT: api/loan/5

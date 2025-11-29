@@ -1,21 +1,7 @@
-import api from '@/axios'
-
-// Get all installments
-export const getInstallments = () => {
-  return api.get('api/installments')
-}
+import axios from '@/axios'
 
 // Get installments by loan ID
-export const getInstallmentsByLoan = (loanId) => {
-  return api.get(`api/installments/loan/${loanId}`)
-}
-
-// Get pending installments by loan ID
-export const getPendingInstallmentsByLoan = (loanId) => {
-  return api.get(`api/installments/loan/${loanId}/pending`)
-}
-
-// Get installment by ID
-export const getInstallment = (id) => {
-  return api.get(`api/installments/${id}`)
+export const getInstallmentsByLoan = async (loanId) => {
+  const response = await axios.get(`/api/installments/loan/${loanId}`)
+  return response.data
 }
