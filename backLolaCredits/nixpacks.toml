@@ -3,12 +3,9 @@ nixPkgs = ["dotnet-sdk_8"]
 
 [phases.build]
 cmds = [
-  "dotnet restore",
-  "dotnet publish -c Release -o out"
+  "dotnet restore backLolaCredits.csproj",
+  "dotnet publish backLolaCredits.csproj -c Release -o out"
 ]
 
-[phases.start]
-cmd = "cd out && dotnet backLolaCredits.dll"
-
-[variables]
-ASPNETCORE_ENVIRONMENT = "Production"
+[start]
+cmd = "dotnet out/backLolaCredits.dll"
