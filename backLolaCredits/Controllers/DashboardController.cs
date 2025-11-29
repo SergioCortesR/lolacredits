@@ -19,9 +19,13 @@ public class DashboardController : ControllerBase
         var totalPersons = await _db.Persons.CountAsync();
         var totalLoans = await _db.Loans.CountAsync();
 
-        var totalLoaned = await _db.Loans.SumAsync(l => l.Amount);
-        var totalPaid = await _db.Installments.SumAsync(i => i.PaidAmount);
-        var totalPending = await _db.Installments.SumAsync(i => i.ExpectedAmount - i.PaidAmount);
+        // SQLite doesn't support Sum on decimal directly, so we load data and sum in memory
+        var loans = await _db.Loans.ToListAsync();
+        var installments = await _db.Installments.ToListAsync();
+        
+        var totalLoaned = loans.Sum(l => l.Amount);
+        var totalPaid = installments.Sum(i => i.PaidAmount);
+        var totalPending = installments.Sum(i => i.ExpectedAmount - i.PaidAmount);
 
         var activeLoans = await _db.Loans.CountAsync(l => l.Installments.Any(i => i.Status != InstallmentStatus.Paid));
         var completedLoans = await _db.Loans.CountAsync(l => l.Installments.All(i => i.Status == InstallmentStatus.Paid));
