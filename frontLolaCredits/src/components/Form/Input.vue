@@ -8,7 +8,14 @@ defineProps({
   },
   required: Boolean,
   error: String,
-  modelValue: [String, Number]
+  modelValue: [String, Number],
+  disabled: {
+    type: Boolean,
+    default: false
+  },
+  min: [String, Number],
+  max: [String, Number],
+  step: [String, Number]
 })
 
 defineEmits(['update:modelValue'])
@@ -26,7 +33,16 @@ defineEmits(['update:modelValue'])
       :type="type"
       :placeholder="placeholder"
       :required="required"
-      class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+      :disabled="disabled"
+      :min="min"
+      :max="max"
+      :step="step"
+      :class="[
+        'w-full px-3 py-2 border rounded-lg focus:outline-none',
+        disabled 
+          ? 'bg-gray-100 border-gray-200 cursor-not-allowed text-gray-500' 
+          : 'border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent'
+      ]"
     />
     <p v-if="error" class="text-sm text-red-600">{{ error }}</p>
   </div>

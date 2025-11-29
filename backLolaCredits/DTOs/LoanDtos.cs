@@ -13,6 +13,8 @@ public class LoanReadDto
     public int Id { get; set; }
     public int PersonId { get; set; }
     public required string PersonName { get; set; }
+    public string PersonEmail { get; set; } = string.Empty;
+    public string PersonCI { get; set; } = string.Empty;
     public decimal Amount { get; set; }
     public int Months { get; set; }
     public int InterestRate { get; set; }
