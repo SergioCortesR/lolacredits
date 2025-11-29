@@ -49,6 +49,6 @@
 }
 
 /* Smooth transitions for theme changes */
-* {
+html, body, div, aside, header, footer, main, section, nav {
   transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }

@@ -1,40 +1,35 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 [ApiController]
 [Route("api/dashboard")]
 public class DashboardController : ControllerBase
 {
-    private readonly PersonService _personService;
-    private readonly LoanService _loanService;
+    private readonly AppDbContext _db;
 
-    public DashboardController(PersonService personService, LoanService loanService)
+    public DashboardController(AppDbContext db)
     {
-        _personService = personService;
-        _loanService = loanService;
+        _db = db;
     }
 
     // GET: api/dashboard/stats
     [HttpGet("stats")]
     public async Task<ActionResult<DashboardStatsDto>> GetStats()
     {
-        var persons = await _personService.GetAllAsync();
-        var loans = await _loanService.GetAllAsync();
+        var totalPersons = await _db.Persons.CountAsync();
+        var totalLoans = await _db.Loans.CountAsync();
 
-        var totalLoaned = loans.Sum(l => l.Amount);
-        var totalPending = loans
-            .SelectMany(l => l.Installments)
-            .Sum(i => i.ExpectedAmount - i.PaidAmount);
-        var totalPaid = loans
-            .SelectMany(l => l.Installments)
-            .Sum(i => i.PaidAmount);
+        var totalLoaned = await _db.Loans.SumAsync(l => l.Amount);
+        var totalPaid = await _db.Installments.SumAsync(i => i.PaidAmount);
+        var totalPending = await _db.Installments.SumAsync(i => i.ExpectedAmount - i.PaidAmount);
 
-        var activeLoans = loans.Count(l => l.Installments.Any(i => i.Status != InstallmentStatus.Paid));
-        var completedLoans = loans.Count(l => l.Installments.All(i => i.Status == InstallmentStatus.Paid));
+        var activeLoans = await _db.Loans.CountAsync(l => l.Installments.Any(i => i.Status != InstallmentStatus.Paid));
+        var completedLoans = await _db.Loans.CountAsync(l => l.Installments.All(i => i.Status == InstallmentStatus.Paid));
 
         return Ok(new DashboardStatsDto
         {
-            TotalPersons = persons.Count,
-            TotalLoans = loans.Count,
+            TotalPersons = totalPersons,
+            TotalLoans = totalLoans,
             ActiveLoans = activeLoans,
             CompletedLoans = completedLoans,
             TotalLoaned = totalLoaned,

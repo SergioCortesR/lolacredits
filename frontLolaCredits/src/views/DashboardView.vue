@@ -89,21 +89,21 @@
     <!-- Financial Summary -->
     <div v-if="!loading && !error" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
       <!-- Total Loaned -->
-      <div class="bg-linear-to-br from-sky-50 to-sky-100 dark:from-sky-900/20 dark:to-sky-800/20 rounded-lg shadow-sm dark:shadow-gray-900/50 border border-sky-200 dark:border-sky-800 p-6 transition-all hover:shadow-md">
+      <div class="bg-gradient-to-br from-sky-50 to-sky-100 dark:from-sky-900/20 dark:to-sky-800/20 rounded-lg shadow-sm dark:shadow-gray-900/50 border border-sky-200 dark:border-sky-800 p-6 transition-all hover:shadow-md">
         <p class="text-sm font-medium text-sky-700 dark:text-sky-400 mb-2">Total Prestado</p>
         <p class="text-2xl font-bold text-sky-900 dark:text-sky-300">${{ formatCurrency(stats.totalLoaned) }}</p>
         <p class="text-xs text-sky-600 dark:text-sky-500 mt-2">Monto total de todos los préstamos</p>
       </div>
 
       <!-- Total Paid -->
-      <div class="bg-linear-to-br from-emerald-50 to-emerald-100 dark:from-emerald-900/20 dark:to-emerald-800/20 rounded-lg shadow-sm dark:shadow-gray-900/50 border border-emerald-200 dark:border-emerald-800 p-6 transition-all hover:shadow-md">
+      <div class="bg-gradient-to-br from-emerald-50 to-emerald-100 dark:from-emerald-900/20 dark:to-emerald-800/20 rounded-lg shadow-sm dark:shadow-gray-900/50 border border-emerald-200 dark:border-emerald-800 p-6 transition-all hover:shadow-md">
         <p class="text-sm font-medium text-emerald-700 dark:text-emerald-400 mb-2">Total Cobrado</p>
         <p class="text-2xl font-bold text-emerald-900 dark:text-emerald-300">${{ formatCurrency(stats.totalPaid) }}</p>
         <p class="text-xs text-emerald-600 dark:text-emerald-500 mt-2">Pagos recibidos acumulados</p>
       </div>
 
       <!-- Total Pending -->
-      <div class="bg-linear-to-br from-orange-50 to-orange-100 dark:from-orange-900/20 dark:to-orange-800/20 rounded-lg shadow-sm dark:shadow-gray-900/50 border border-orange-200 dark:border-orange-800 p-6 transition-all hover:shadow-md">
+      <div class="bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-900/20 dark:to-orange-800/20 rounded-lg shadow-sm dark:shadow-gray-900/50 border border-orange-200 dark:border-orange-800 p-6 transition-all hover:shadow-md">
         <p class="text-sm font-medium text-orange-700 dark:text-orange-400 mb-2">Total Pendiente</p>
         <p class="text-2xl font-bold text-orange-900 dark:text-orange-300">${{ formatCurrency(stats.totalPending) }}</p>
         <p class="text-xs text-orange-600 dark:text-orange-500 mt-2">Saldo por cobrar</p>
