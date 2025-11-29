@@ -1,9 +1,9 @@
 import api from '@/axios'
 
 // Get all persons
-export const getPersons = () => {
-  return api.get('/persons')
-}
+export const getPersons = (params = {}) => {
+  return api.get('/persons', { params });
+};
 
 // Get person by ID
 export const getPerson = (id) => {

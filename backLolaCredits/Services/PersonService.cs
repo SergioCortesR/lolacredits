@@ -18,12 +18,55 @@ public class PersonService
     }
 
     // Read all
-    public async Task<List<Person>> GetAllAsync()
+    public async Task<PagedResult<Person>> GetPagedAsync(
+    int page,
+    int pageSize,
+    string? search,
+    string? sort,
+    string? dir)
     {
-        return await _db.Persons
+        var query = _db.Persons.AsQueryable();
+
+        // Filtro
+        if (!string.IsNullOrWhiteSpace(search))
+        {
+            search = search.Trim().ToLower();
+            query = query.Where(p =>
+                p.Name.ToLower().Contains(search) ||
+                p.LastName.ToLower().Contains(search) ||
+                p.SecondLastName.ToLower().Contains(search) ||
+                p.Email.ToLower().Contains(search) ||
+                p.CI.ToLower().Contains(search)
+            );
+        }
+
+        // Orden dinámico (por columna)
+        if (!string.IsNullOrWhiteSpace(sort))
+        {
+            query = dir == "desc"
+                ? query.OrderByDescending(e => EF.Property<object>(e, sort))
+                : query.OrderBy(e => EF.Property<object>(e, sort));
+        }
+
+        // Total antes de paginar
+        var totalItems = await query.CountAsync();
+
+        // Paginación
+        var items = await query
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
             .AsNoTracking()
             .ToListAsync();
+
+        return new PagedResult<Person>
+        {
+            TotalItems = totalItems,
+            Page = page,
+            PageSize = pageSize,
+            Items = items
+        };
     }
+
 
     // Read by Id
     public async Task<Person?> GetByIdAsync(int id)
