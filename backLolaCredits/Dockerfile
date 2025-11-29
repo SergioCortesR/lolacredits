@@ -1,22 +1,15 @@
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+# Build stage
+FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS build
 WORKDIR /src
-
-# Copy csproj and restore
-COPY *.csproj ./
-RUN dotnet restore
-
-# Copy everything else and build
 COPY . ./
-RUN dotnet publish -c Release -o /app/publish
+RUN dotnet restore
+RUN dotnet publish -c Release -o /app
 
-# Build runtime image
+# Runtime stage
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
-COPY --from=build /app/publish .
-
-# Expose port
+COPY --from=build /app .
 EXPOSE 8080
-
-ENV ASPNETCORE_URLS=http://+:8080
-
+ENV ASPNETCORE_URLS=http://0.0.0.0:8080
+ENV ASPNETCORE_ENVIRONMENT=Production
 ENTRYPOINT ["dotnet", "backLolaCredits.dll"]
