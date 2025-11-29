@@ -1,11 +1,11 @@
 <template>
   <div class="container mx-auto px-4 py-8">
     <div class="mb-8">
-      <h1 class="text-4xl font-bold text-gray-900">Gestión de Clientes</h1>
-      <p class="text-gray-600 mt-2">Crea, edita y gestiona clientes</p>
+      <h1 class="text-4xl font-bold text-gray-900 dark:text-gray-100">Gestión de Clientes</h1>
+      <p class="text-gray-600 dark:text-gray-400 mt-2">Crea, edita y gestiona clientes</p>
     </div>
 
-    <div class="bg-white rounded-lg shadow border border-gray-200 p-6">
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm dark:shadow-gray-900/50 border border-gray-200 dark:border-gray-700 p-6">
       <PersonsTable ref="personsTable" @create="handleCreate" @edit="handleEdit" />
     </div>
 

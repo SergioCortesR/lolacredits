@@ -23,9 +23,9 @@ defineEmits(['update:modelValue'])
 
 <template>
   <div class="space-y-1">
-    <label v-if="label" class="block text-sm font-medium text-gray-700">
+    <label v-if="label" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
       {{ label }}
-      <span v-if="required" class="text-red-600">*</span>
+      <span v-if="required" class="text-red-600 dark:text-red-400">*</span>
     </label>
     <input
       :value="modelValue"
@@ -38,12 +38,12 @@ defineEmits(['update:modelValue'])
       :max="max"
       :step="step"
       :class="[
-        'w-full px-3 py-2 border rounded-lg focus:outline-none',
+        'w-full px-3 py-2 border rounded-lg focus:outline-none text-gray-900 dark:text-gray-100',
         disabled 
-          ? 'bg-gray-100 border-gray-200 cursor-not-allowed text-gray-500' 
-          : 'border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent'
+          ? 'bg-gray-100 dark:bg-gray-700 border-gray-200 dark:border-gray-600 cursor-not-allowed text-gray-500 dark:text-gray-400' 
+          : 'bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-sky-500 dark:focus:ring-sky-400 focus:border-transparent'
       ]"
     />
-    <p v-if="error" class="text-sm text-red-600">{{ error }}</p>
+    <p v-if="error" class="text-sm text-red-600 dark:text-red-400">{{ error }}</p>
   </div>
 </template>
