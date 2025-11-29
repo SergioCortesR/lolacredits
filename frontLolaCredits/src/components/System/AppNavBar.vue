@@ -1,14 +1,3 @@
-<script setup>
-import { ref } from 'vue'
-import { RouterLink } from 'vue-router'
-
-const open = ref(false)
-
-const toggleMenu = () => {
-  open.value = !open.value
-}
-</script>
-
 <template>
   <header class="bg-white border-b border-gray-200">
     <div class="container mx-auto px-4 py-3 flex items-center justify-between">
@@ -18,11 +7,16 @@ const toggleMenu = () => {
           <span class="text-xl font-bold text-blue-600">LolaCredits</span>
         </RouterLink>
       </div>
-
       <nav class="hidden md:flex items-center gap-6 text-sm font-medium">
-        Made by Sergio Cortes
+        <div>
+          <div>Hecho por Sergio Cortes</div>
+          <div>
+            <a :href="swaggerUrl" target="_blank" class="text-blue-600">
+              Documentación en Swagger
+            </a>
+          </div>
+        </div>
       </nav>
-
       <!-- Mobile menu button -->
       <div class="md:hidden">
         <button @click="toggleMenu" class="p-2 rounded-md bg-gray-100 hover:bg-gray-200">
@@ -54,7 +48,14 @@ const toggleMenu = () => {
     </div>
   </header>
 </template>
+<script setup>
+import { ref } from 'vue'
+import { RouterLink } from 'vue-router'
 
-<style scoped>
-/* Scoped minimal styles if needed */
-</style>
+const open = ref(false)
+
+const toggleMenu = () => {
+  open.value = !open.value
+}
+const swaggerUrl = `${import.meta.env.VITE_API_BASE_URL}swagger/index.html`;
+</script>
