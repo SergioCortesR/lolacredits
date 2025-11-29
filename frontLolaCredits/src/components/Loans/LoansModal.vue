@@ -153,7 +153,7 @@ const submit = async () => {
       personId: parseInt(form.value.personId),
       amount: parseFloat(form.value.amount),
       months: parseInt(form.value.months),
-      interestRate: parseInt(form.value.interestRate),
+      interestRate: parseFloat(form.value.interestRate),
       paymentDay: parseInt(form.value.paymentDay),
       loanDate: form.value.loanDate || null
     }
