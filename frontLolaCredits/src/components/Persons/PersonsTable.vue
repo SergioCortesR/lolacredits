@@ -8,7 +8,7 @@
     <!-- Header with filters and Create button -->
     <div class="flex flex-col md:flex-row gap-4 justify-between items-start md:items-center">
       <div class="flex-1 w-full md:w-auto">
-        <input v-model="filters.search" @input="debouncedSearch" type="text" placeholder="Search by name, CI, email..."
+        <input v-model="filters.search" @input="debouncedSearch" type="text" placeholder="Buscar por nombre, CI, email..."
           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
       </div>
       <button @click="handleCreate"
@@ -18,7 +18,7 @@
     </div>
 
     <!-- Loading state -->
-    <div v-if="loading" class="text-center text-gray-500 py-8">Loading...</div>
+    <div v-if="loading" class="text-center text-gray-500 py-8">Cargando...</div>
 
     <!-- Empty state -->
     <div v-else-if="!persons.items || persons.items.length === 0"
@@ -67,7 +67,7 @@
                   </svg>
                 </div>
               </th>
-              <th class="px-4 py-3 text-center text-sm font-semibold text-gray-900">Actions</th>
+              <th class="px-4 py-3 text-center text-sm font-semibold text-gray-900">Acciones</th>
             </tr>
           </thead>
           <tbody>
@@ -204,7 +204,7 @@ const loadPersons = async () => {
     const response = await getPersons(params)
     persons.value = response.data
   } catch (err) {
-    error.value = 'Error loading persons'
+    error.value = 'Error al cargar clientes'
     console.error(err)
   } finally {
     loading.value = false
@@ -240,8 +240,8 @@ defineExpose({ loadPersons })
 
 const handleDelete = async (id) => {
   const ok = await confirmDialog.value.ask(
-    "Delete Person",
-    "Are you sure you want to delete this person?"
+    "Eliminar Cliente",
+    "¿Estás seguro de que deseas eliminar este cliente?"
   )
 
   if (!ok) return

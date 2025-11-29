@@ -39,10 +39,10 @@
           Dashboard
         </RouterLink>
         <RouterLink to="/persons" class="block text-gray-600 hover:text-gray-900 font-medium transition-colors">
-          Persons
+          Clientes
         </RouterLink>
         <RouterLink to="/loans" class="block text-gray-600 hover:text-gray-900 font-medium transition-colors">
-          Loans
+          Préstamos
         </RouterLink>
       </div>
     </div>

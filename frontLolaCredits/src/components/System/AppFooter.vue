@@ -3,6 +3,6 @@
 
 <template>
   <div>
-    <h1>Welcome to Lola Credits!</h1>
+    <h1>¡Bienvenido a Lola Credits!</h1>
   </div>
 </template>

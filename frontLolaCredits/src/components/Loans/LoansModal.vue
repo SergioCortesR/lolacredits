@@ -115,7 +115,7 @@ const open = async (loan = null) => {
       }
     } catch (err) {
       console.error(err)
-      error.value = "Error loading loan"
+      error.value = "Error al cargar préstamo"
     }
   } else {
     const today = new Date().toISOString().split('T')[0]

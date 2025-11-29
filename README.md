@@ -19,12 +19,16 @@ Loan management system with installments and payment tracking — built with .NE
 - Axios for HTTP requests
 
 ## Features
-- ✅ Person CRUD (clients management)
+- ✅ Person CRUD (clients management) with pagination, search, and sorting
 - ✅ Loan CRUD with automatic installment generation
+- ✅ Email and CI columns visible in loans table for quick reference
 - ✅ View loan installments with payment status tracking
-- ✅ Register payments against installments
-- ✅ Search, pagination, and sorting across all entities
+- ✅ Register payments against installments with validation
+- ✅ Sequential payment validation (can't pay future installments before previous ones)
+- ✅ Dashboard with comprehensive statistics and quick actions
 - ✅ Real-time status updates (Pending, Partial, Paid)
+- ✅ Complete Spanish UI
+- ✅ Modal blur effects for better UX
 
 ## Architecture
 **Backend flow:**
@@ -89,37 +93,38 @@ The app will be available at `http://localhost:5173`.
 ## API Endpoints
 
 ### Persons
-- `GET /api/persons` - Get paginated persons (supports search, sort)
+- `GET /api/persons` - Get paginated persons (supports search by name/CI/email, sort)
 - `GET /api/persons/{id}` - Get person by ID
+- `GET /api/persons/all` - Get all persons (for dashboard stats)
 - `POST /api/persons` - Create person
 - `PUT /api/persons/{id}` - Update person
 - `DELETE /api/persons/{id}` - Delete person
 
 ### Loans
-- `GET /api/loans` - Get paginated loans (supports search, sort)
-- `GET /api/loans/{id}` - Get loan by ID
-- `GET /api/loans/person/{personId}` - Get loans by person
+- `GET /api/loans` - Get paginated loans (supports search by client/CI/email, sort)
+- `GET /api/loans/{id}` - Get loan by ID with installments
 - `POST /api/loans` - Create loan (auto-generates installments)
-- `PUT /api/loans/{id}` - Update loan
+- `PUT /api/loans/{id}` - Update loan (only interest rate and payment day)
 - `DELETE /api/loans/{id}` - Delete loan (cascades to installments/payments)
 
 ### Installments
 - `GET /api/installments/loan/{loanId}` - Get all installments for a loan
-- `GET /api/installments/pending/loan/{loanId}` - Get pending installments
-- `GET /api/installments/{id}` - Get installment by ID
 
 ### Payments
-- `GET /api/payments/loan/{loanId}` - Get all payments for a loan
-- `GET /api/payments/installment/{installmentId}` - Get payments for installment
-- `POST /api/payments` - Register a payment
+- `POST /api/payments` - Register a payment (validates sequential payment rule)
+
+### Dashboard
+- `GET /api/dashboard/stats` - Get dashboard statistics (total clients, loans, amounts, etc.)
 
 ## Business Rules
 - Loans automatically generate monthly installments on creation
 - Interest is calculated and added to monthly payment amount
 - Payment day must be between 1-28 of the month
 - Installment status: `Pending` (0), `Partial` (1), `Paid` (2)
+- **Sequential payment validation:** Cannot pay an installment if previous installments are not fully paid
 - When editing a loan, amount and months are locked (only interest rate and payment day editable)
 - Deleting a loan cascades to all installments and payments
+- All monetary values rounded to 2 decimals
 
 ## Database
 SQLite database is created automatically on first run. Migrations are in `backLolaCredits/Migrations/`.

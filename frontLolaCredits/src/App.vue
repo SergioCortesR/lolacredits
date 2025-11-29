@@ -14,11 +14,11 @@ import AppNavBar from './components/System/AppNavBar.vue'
         <aside class="hidden md:block w-64">
           <div class="sticky top-6 space-y-4">
             <div class="bg-white rounded-lg shadow border border-gray-200 p-4">
-              <h3 class="text-sm font-semibold text-gray-700">Aciones rápidas</h3>
+              <h3 class="text-sm font-semibold text-gray-700">Acciones rápidas</h3>
               <ul class="mt-3 space-y-2 text-sm text-gray-600">
                 <li><RouterLink to="/" class="hover:text-gray-900">Dashboard</RouterLink></li>
-                <li><RouterLink to="/persons" class="hover:text-gray-900">Personas</RouterLink></li>
-                <li><RouterLink to="/loans" class="hover:text-gray-900">Prestamos</RouterLink></li>
+                <li><RouterLink to="/persons" class="hover:text-gray-900">Clientes</RouterLink></li>
+                <li><RouterLink to="/loans" class="hover:text-gray-900">Préstamos</RouterLink></li>
               </ul>
             </div>
           </div>

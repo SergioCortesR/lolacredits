@@ -19,7 +19,7 @@
     </div>
 
     <!-- Loading state -->
-    <div v-if="loading" class="text-center text-gray-500 py-8">Loading...</div>
+    <div v-if="loading" class="text-center text-gray-500 py-8">Cargando...</div>
 
     <!-- Empty state -->
     <div v-else-if="!loans.items || loans.items.length === 0"
@@ -240,7 +240,7 @@ const loadLoans = async () => {
     const response = await getLoans(params)
     loans.value = response.data
   } catch (err) {
-    error.value = 'Error loading loans'
+    error.value = 'Error al cargar préstamos'
     console.error(err)
   } finally {
     loading.value = false

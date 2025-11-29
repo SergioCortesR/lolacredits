@@ -6,10 +6,10 @@
 
             <div class="flex justify-end gap-3 mt-6">
                 <button @click="cancel" class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300">
-                    Cancel
+                    Cancelar
                 </button>
                 <button @click="confirm" class="px-4 py-2 bg-blue-700 text-white rounded-lg hover:bg-blue-500">
-                    Confirm
+                    Confirmar
                 </button>
             </div>
         </div>
