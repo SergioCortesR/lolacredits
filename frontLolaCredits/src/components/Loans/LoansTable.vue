@@ -167,6 +167,7 @@
 import { ref, onMounted, computed } from 'vue'
 import { getLoans, deleteLoan } from '@/services/Loan/loans'
 import ConfirmDialog from '@/components/Form/ConfirmAction.vue'
+import { formatCurrency } from '@/utils/formatters'
 
 const loans = ref({
   items: [],
@@ -310,7 +311,7 @@ const handleDelete = async (id) => {
     await deleteLoan(id)
     await loadLoans()
   } catch (err) {
-    error.value = "Error deleting loan"
+    error.value = "Error al eliminar préstamo"
     console.error(err)
   }
 }
