@@ -40,7 +40,7 @@ namespace backLolaCredits.Migrations
                     LoanDate = table.Column<DateOnly>(type: "TEXT", nullable: false),
                     DueDate = table.Column<DateOnly>(type: "TEXT", nullable: false),
                     Months = table.Column<int>(type: "INTEGER", nullable: false),
-                    InterestRate = table.Column<int>(type: "INTEGER", nullable: false),
+                    InterestRate = table.Column<decimal>(type: "TEXT", nullable: false),
                     PaymentDay = table.Column<int>(type: "INTEGER", nullable: false),
                     MonthlyAmount = table.Column<decimal>(type: "TEXT", nullable: false)
                 },

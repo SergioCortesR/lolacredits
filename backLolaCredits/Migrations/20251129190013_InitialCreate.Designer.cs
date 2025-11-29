@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace backLolaCredits.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251128024636_InitialCreate")]
+    [Migration("20251129190013_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -63,8 +63,8 @@ namespace backLolaCredits.Migrations
                     b.Property<DateOnly>("DueDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("InterestRate")
-                        .HasColumnType("INTEGER");
+                    b.Property<decimal>("InterestRate")
+                        .HasColumnType("TEXT");
 
                     b.Property<DateOnly>("LoanDate")
                         .HasColumnType("TEXT");

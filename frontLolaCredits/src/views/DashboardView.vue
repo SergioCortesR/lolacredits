@@ -187,7 +187,6 @@ const loadStats = async () => {
   try {
     stats.value = await getDashboardStats()
   } catch (err) {
-    console.error('Error loading dashboard stats:', err)
     error.value = 'Error al cargar las estadísticas. Por favor, intente nuevamente.'
   } finally {
     loading.value = false

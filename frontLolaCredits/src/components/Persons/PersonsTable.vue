@@ -205,7 +205,6 @@ const loadPersons = async () => {
     persons.value = response.data
   } catch (err) {
     error.value = 'Error al cargar clientes'
-    console.error(err)
   } finally {
     loading.value = false
   }

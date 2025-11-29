@@ -60,8 +60,8 @@ namespace backLolaCredits.Migrations
                     b.Property<DateOnly>("DueDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("InterestRate")
-                        .HasColumnType("INTEGER");
+                    b.Property<decimal>("InterestRate")
+                        .HasColumnType("TEXT");
 
                     b.Property<DateOnly>("LoanDate")
                         .HasColumnType("TEXT");

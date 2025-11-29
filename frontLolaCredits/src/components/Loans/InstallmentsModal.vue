@@ -131,7 +131,6 @@ const open = async (loanData) => {
   try {
     installments.value = await getInstallmentsByLoan(loanData.id)
   } catch (error) {
-    console.error('Error loading installments:', error)
     alert('Error al cargar las cuotas')
   } finally {
     loading.value = false
@@ -156,7 +155,7 @@ const handlePaymentDone = async () => {
       installments.value = await getInstallmentsByLoan(loan.value.id)
       emit('paymentDone')
     } catch (error) {
-      console.error('Error reloading installments:', error)
+      // Error handled silently
     } finally {
       loading.value = false
     }

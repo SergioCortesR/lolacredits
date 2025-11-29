@@ -242,7 +242,6 @@ const loadLoans = async () => {
     loans.value = response.data
   } catch (err) {
     error.value = 'Error al cargar préstamos'
-    console.error(err)
   } finally {
     loading.value = false
   }
@@ -312,7 +311,6 @@ const handleDelete = async (id) => {
     await loadLoans()
   } catch (err) {
     error.value = "Error al eliminar préstamo"
-    console.error(err)
   }
 }
 
