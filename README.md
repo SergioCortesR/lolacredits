@@ -27,8 +27,11 @@ Loan management system with installments and payment tracking — built with .NE
 - ✅ Sequential payment validation (can't pay future installments before previous ones)
 - ✅ Dashboard with comprehensive statistics and quick actions
 - ✅ Real-time status updates (Pending, Partial, Paid)
-- ✅ Complete Spanish UI
+- ✅ Complete Spanish UI with Dark Mode 🌙
 - ✅ Modal blur effects for better UX
+- ✅ Number formatting with thousands separators (10,000.00)
+- ✅ Simple monthly interest calculation
+- ✅ Docker support for easy deployment
 
 ## Architecture
 **Backend flow:**
@@ -141,3 +144,34 @@ dotnet ef database update
 - All monetary values rounded to 2 decimals
 - Debounced search (500ms) to reduce API calls
 - Pagination defaults to 10 items per page
+
+## 🚀 Deployment
+
+For detailed deployment instructions, see **[DEPLOYMENT.md](./DEPLOYMENT.md)**
+
+### Quick Deploy with Docker
+```bash
+# Windows
+.\deploy.ps1
+
+# Linux/Mac
+chmod +x deploy.sh
+./deploy.sh
+```
+
+### Recommended Platforms
+- **Railway.app** - Fastest deployment (10 minutes)
+- **Vercel** (Frontend) + **Railway** (Backend) - Best for production
+- **Docker + VPS** - Maximum control
+
+See [DEPLOYMENT.md](./DEPLOYMENT.md) for step-by-step guides.
+
+## 📝 License
+
+MIT License - feel free to use this project for learning or commercial purposes.
+
+## 👤 Author
+
+**Sergio Cortés**  
+- GitHub: [@SergioCortesR](https://github.com/SergioCortesR)
+

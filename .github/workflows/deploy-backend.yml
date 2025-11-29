@@ -1,0 +1,34 @@
+name: Deploy Backend to Railway
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+    - 'backLolaCredits/**'
+  workflow_dispatch:
+
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: Restore dependencies
+      run: dotnet restore backLolaCredits/backLolaCredits.csproj
+
+    - name: Build
+      run: dotnet build backLolaCredits/backLolaCredits.csproj -c Release --no-restore
+
+    - name: Test
+      run: dotnet test backLolaCredits/backLolaCredits.csproj --no-restore --verbosity normal
+
+    - name: Deploy to Railway
+      run: |
+        # Railway deployment happens automatically via GitHub integration
+        echo "Backend deployed successfully"

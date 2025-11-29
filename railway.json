@@ -1,0 +1,7 @@
+# This file tells Railway which directories contain deployable services
+
+[services.backend]
+root = "backLolaCredits"
+
+[services.frontend]
+root = "frontLolaCredits"

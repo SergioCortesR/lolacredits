@@ -46,6 +46,8 @@ Generated/
 appsettings.Development.json
 appsettings.Local.json
 
+# KEEP appsettings.json and appsettings.Production.json for deployment
+
 # Cache NuGet
 .nuget/
 packages/
@@ -73,6 +75,8 @@ vite.config.ts.timestamp-*
 # Archivos de env
 .env
 .env.*.local
+
+# KEEP .env.production and .env.example for deployment
 
 # Logs
 npm-debug.log*
@@ -119,3 +123,16 @@ Desktop.ini
 *.tmp
 *.temp
 ~$*
+
+###############################
+#   DEPLOYMENT
+###############################
+
+# Docker volumes
+data/
+volumes/
+
+# Railway / Vercel
+.vercel
+.railway
+
