@@ -51,7 +51,7 @@ public class LoanController : ControllerBase
         });
     }
 
-    // GET: api/loan/all
+    // GET: api/loans/all
     [HttpGet("all")]
     public async Task<ActionResult<List<LoanReadDto>>> GetAll()
     {
