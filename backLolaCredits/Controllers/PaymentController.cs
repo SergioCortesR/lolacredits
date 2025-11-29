@@ -42,20 +42,4 @@ public class PaymentController : ControllerBase
 
         return Ok(_mapper.Map<PaymentReadDto>(payment));
     }
-
-    // GET: api/payment/installment/5
-    [HttpGet("installment/{installmentId:int}")]
-    public async Task<ActionResult<List<PaymentReadDto>>> GetByInstallmentId(int installmentId)
-    {
-        var payments = await _service.GetByInstallmentIdAsync(installmentId);
-        return Ok(_mapper.Map<List<PaymentReadDto>>(payments));
-    }
-
-    // GET: api/payment/loan/5
-    [HttpGet("loan/{loanId:int}")]
-    public async Task<ActionResult<List<PaymentReadDto>>> GetByLoanId(int loanId)
-    {
-        var payments = await _service.GetByLoanIdAsync(loanId);
-        return Ok(_mapper.Map<List<PaymentReadDto>>(payments));
-    }
 }

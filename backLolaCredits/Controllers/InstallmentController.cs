@@ -33,12 +33,4 @@ public class InstallmentController : ControllerBase
 
         return Ok(_mapper.Map<InstallmentReadDto>(installment));
     }
-
-    // GET: api/installment/pending/loan/5
-    [HttpGet("pending/loan/{loanId:int}")]
-    public async Task<ActionResult<List<InstallmentReadDto>>> GetPendingByLoanId(int loanId)
-    {
-        var installments = await _service.GetPendingByLoanIdAsync(loanId);
-        return Ok(_mapper.Map<List<InstallmentReadDto>>(installments));
-    }
 }

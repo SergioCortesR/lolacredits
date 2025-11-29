@@ -76,6 +76,12 @@ public class PersonService
             .FirstOrDefaultAsync(p => p.Id == id);
     }
 
+    // Read all
+    public async Task<List<Person>> GetAllAsync()
+    {
+        return await _db.Persons.ToListAsync();
+    }
+
     // Read by CI
     public async Task<Person?> GetByCIAsync(string ci)
     {
