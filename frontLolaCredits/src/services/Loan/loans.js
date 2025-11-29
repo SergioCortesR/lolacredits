@@ -1,8 +1,13 @@
 import api from '@/axios'
 
-// Get all loans
-export const getLoans = () => {
-  return api.get('api/loans')
+// Get all loans (with pagination and filters)
+export const getLoans = (params) => {
+  return api.get('api/loans', { params })
+}
+
+// Get all loans without pagination
+export const getAllLoans = () => {
+  return api.get('api/loans/all')
 }
 
 // Get loans by person ID

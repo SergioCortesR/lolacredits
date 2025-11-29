@@ -33,6 +33,26 @@ public class LoanController : ControllerBase
 
     // GET: api/loan
     [HttpGet]
+    public async Task<ActionResult<PagedResult<LoanReadDto>>> GetPaged(
+        int page = 1,
+        int pageSize = 10,
+        string? search = null,
+        string? sort = "LoanDate",
+        string? dir = "desc")
+    {
+        var result = await _service.GetPagedAsync(page, pageSize, search, sort, dir);
+
+        return Ok(new PagedResult<LoanReadDto>
+        {
+            TotalItems = result.TotalItems,
+            Page = result.Page,
+            PageSize = result.PageSize,
+            Items = _mapper.Map<IEnumerable<LoanReadDto>>(result.Items)
+        });
+    }
+
+    // GET: api/loan/all
+    [HttpGet("all")]
     public async Task<ActionResult<List<LoanReadDto>>> GetAll()
     {
         var loans = await _service.GetAllAsync();

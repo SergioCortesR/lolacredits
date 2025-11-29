@@ -57,6 +57,58 @@ public class LoanService
             .ToListAsync();
     }
 
+    // Get paged loans with search and sort
+    public async Task<PagedResult<Loan>> GetPagedAsync(int page, int pageSize, string? search, string? sort, string? dir)
+    {
+        var query = _db.Loans
+            .Include(l => l.Person)
+            .Include(l => l.Installments)
+            .AsQueryable();
+
+        // Search filter
+        if (!string.IsNullOrWhiteSpace(search))
+        {
+            query = query.Where(l =>
+                l.Person.Name.Contains(search) ||
+                l.Person.LastName.Contains(search) ||
+                l.Person.SecondLastName.Contains(search) ||
+                l.Person.Email.Contains(search) ||
+                l.Person.CI.Contains(search)
+            );
+        }
+
+        // Count total items
+        var totalItems = await query.CountAsync();
+
+        // Sorting
+        query = (sort?.ToLower(), dir?.ToLower()) switch
+        {
+            ("amount", "asc") => query.OrderBy(l => l.Amount),
+            ("amount", "desc") => query.OrderByDescending(l => l.Amount),
+            ("months", "asc") => query.OrderBy(l => l.Months),
+            ("months", "desc") => query.OrderByDescending(l => l.Months),
+            ("interestrate", "asc") => query.OrderBy(l => l.InterestRate),
+            ("interestrate", "desc") => query.OrderByDescending(l => l.InterestRate),
+            ("loandate", "asc") => query.OrderBy(l => l.LoanDate),
+            ("loandate", "desc") => query.OrderByDescending(l => l.LoanDate),
+            _ => query.OrderByDescending(l => l.LoanDate) // Default
+        };
+
+        // Pagination
+        var items = await query
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        return new PagedResult<Loan>
+        {
+            Items = items,
+            TotalItems = totalItems,
+            Page = page,
+            PageSize = pageSize
+        };
+    }
+
     // Get loan by ID with installments
     public async Task<Loan?> GetByIdAsync(int id)
     {

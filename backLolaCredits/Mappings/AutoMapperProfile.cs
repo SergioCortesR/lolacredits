@@ -15,7 +15,11 @@ public class AutoMapperProfile : Profile
         CreateMap<LoanCreateDto, Loan>();
         CreateMap<Loan, LoanReadDto>()
             .ForMember(dest => dest.PersonName, opt =>
-                opt.MapFrom(src => $"{src.Person.Name} {src.Person.LastName}"))
+                opt.MapFrom(src => $"{src.Person.Name} {src.Person.LastName} {src.Person.SecondLastName}".Trim()))
+            .ForMember(dest => dest.PersonEmail, opt =>
+                opt.MapFrom(src => src.Person.Email))
+            .ForMember(dest => dest.PersonCI, opt =>
+                opt.MapFrom(src => src.Person.CI))
             .ForMember(dest => dest.PaidInstallments, opt =>
                 opt.MapFrom(src => src.Installments.Count(i => i.Status == InstallmentStatus.Paid)))
             .ForMember(dest => dest.PendingInstallments, opt =>
@@ -23,7 +27,7 @@ public class AutoMapperProfile : Profile
 
         CreateMap<Loan, LoanDetailDto>()
             .ForMember(dest => dest.PersonName, opt =>
-                opt.MapFrom(src => $"{src.Person.Name} {src.Person.LastName}"))
+                opt.MapFrom(src => $"{src.Person.Name} {src.Person.LastName} {src.Person.SecondLastName}".Trim()))
             .ForMember(dest => dest.Installments, opt =>
                 opt.MapFrom(src => src.Installments));
 
