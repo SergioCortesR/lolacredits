@@ -10,7 +10,9 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "lint": "eslint . --fix --cache"
+    "lint": "eslint . --fix --cache",
+    "seed:persons": "node src/scripts/seedPersons.js",
+    "seed:loans": "node src/scripts/seedLoans.js"
   },
   "dependencies": {
     "@primeuix/themes": "^2.0.1",

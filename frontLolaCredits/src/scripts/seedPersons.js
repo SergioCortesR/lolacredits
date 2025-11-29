@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+const API_BASE_URL = process.env.VITE_API_BASE_URL || 'http://localhost:5228/api'
 
 const api = axios.create({
     baseURL: API_BASE_URL,
@@ -61,7 +61,7 @@ async function seedPersons() {
     console.log('🌱 Starting to seed 50 persons...')
 
     const persons = []
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 25; i++) {
         persons.push(createPerson(i))
     }
 

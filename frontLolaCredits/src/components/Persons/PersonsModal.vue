@@ -60,7 +60,6 @@ const open = (person = null) => {
     getPerson(person.id)
       .then(response => form.value = { ...response.data })
       .catch((err) => {
-        console.error(err)
         error.value = "Error al cargar cliente"
       })
   } else {
@@ -103,7 +102,6 @@ const submit = async () => {
     close()
   } catch (err) {
     error.value = 'Error saving person'
-    console.error(err)
   } finally {
     isLoading.value = false
   }

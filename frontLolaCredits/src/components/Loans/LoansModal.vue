@@ -32,8 +32,8 @@
 
         <div class="grid grid-cols-2 gap-4">
           <Input v-model="form.amount" label="Monto Préstamo" type="number" step="0.01" placeholder="1000.00" required
-            :disabled="editingLoan" />
-          <Input v-model="form.months" label="Meses" type="number" placeholder="12" required :disabled="editingLoan" />
+            :disabled="!!editingLoan" />
+          <Input v-model="form.months" label="Meses" type="number" placeholder="12" required :disabled="!!editingLoan" />
         </div>
 
         <div class="grid grid-cols-2 gap-4">
@@ -42,7 +42,35 @@
             required />
         </div>
 
-        <Input v-model="form.loanDate" label="Fecha de Préstamo" type="date" :disabled="editingLoan" />
+        <Input v-model="form.loanDate" label="Fecha de Préstamo" type="date" :disabled="!!editingLoan" />
+
+        <!-- Calculation Preview (only for create) -->
+        <div v-if="!editingLoan && form.amount && form.months && form.interestRate" 
+          class="bg-sky-50 dark:bg-sky-900/20 border border-sky-200 dark:border-sky-800 px-4 py-3 rounded-lg text-sm">
+          <h3 class="font-semibold text-sky-900 dark:text-sky-300 mb-2">💡 Vista Previa del Cálculo</h3>
+          <div class="space-y-1 text-sky-700 dark:text-sky-400">
+            <div class="flex justify-between">
+              <span>Capital:</span>
+              <span class="font-medium">${{ formatCurrency(parseFloat(form.amount)) }}</span>
+            </div>
+            <div class="flex justify-between">
+              <span>Interés mensual ({{ form.interestRate }}%):</span>
+              <span class="font-medium">${{ formatCurrency(calculateMonthlyInterest()) }}</span>
+            </div>
+            <div class="flex justify-between">
+              <span>Interés total ({{ form.months }} meses):</span>
+              <span class="font-medium">${{ formatCurrency(calculateTotalInterest()) }}</span>
+            </div>
+            <div class="flex justify-between border-t border-sky-300 dark:border-sky-700 pt-1 mt-1">
+              <span class="font-semibold">Total a pagar:</span>
+              <span class="font-bold">${{ formatCurrency(calculateTotalAmount()) }}</span>
+            </div>
+            <div class="flex justify-between border-t border-sky-300 dark:border-sky-700 pt-1 mt-1">
+              <span class="font-semibold">Pago mensual:</span>
+              <span class="font-bold text-emerald-600 dark:text-emerald-400">${{ formatCurrency(calculateMonthlyPayment()) }}</span>
+            </div>
+          </div>
+        </div>
 
         <div v-if="editingLoan" class="bg-sky-50 dark:bg-sky-900/20 border border-sky-200 dark:border-sky-800 px-3 py-2 rounded text-sm text-sky-700 dark:text-sky-400">
           ℹ️ Solo puedes editar el interés y el día de cobro. El monto y meses no pueden modificarse.
@@ -68,6 +96,7 @@ import { ref, onMounted } from 'vue'
 import Input from '@/components/Form/Input.vue'
 import { getLoan, createLoan, updateLoan } from '@/services/Loan/loans'
 import { getPersons } from '@/services/Person/persons'
+import { formatCurrency } from '@/utils/formatters'
 
 const emit = defineEmits(['done'])
 
@@ -95,7 +124,7 @@ const loadPersons = async () => {
     const response = await getPersons({ pageSize: 1000 })
     persons.value = response.data.items || response.data
   } catch (err) {
-    console.error('Error loading persons:', err)
+    // Error handled silently
   }
 }
 
@@ -114,7 +143,6 @@ const open = async (loan = null) => {
         loanDate: loanData.loanDate
       }
     } catch (err) {
-      console.error(err)
       error.value = "Error al cargar préstamo"
     }
   } else {
@@ -167,10 +195,33 @@ const submit = async () => {
     close()
   } catch (err) {
     error.value = err.response?.data?.message || 'Error saving loan'
-    console.error(err)
   } finally {
     isLoading.value = false
   }
+}
+
+// Calculation helpers (Simple Monthly Interest)
+const calculateMonthlyInterest = () => {
+  const amount = parseFloat(form.value.amount) || 0
+  const rate = parseFloat(form.value.interestRate) || 0
+  return amount * (rate / 100)
+}
+
+const calculateTotalInterest = () => {
+  const months = parseInt(form.value.months) || 0
+  return calculateMonthlyInterest() * months
+}
+
+const calculateTotalAmount = () => {
+  const amount = parseFloat(form.value.amount) || 0
+  return amount + calculateTotalInterest()
+}
+
+const calculateMonthlyPayment = () => {
+  const amount = parseFloat(form.value.amount) || 0
+  const months = parseInt(form.value.months) || 1
+  const capitalPerMonth = amount / months
+  return capitalPerMonth + calculateMonthlyInterest()
 }
 
 defineExpose({ open })

@@ -27,20 +27,19 @@ public class LoanService
         if (loan.PaymentDay < 1 || loan.PaymentDay > 28)
             throw new Exception("PaymentDay must be between 1 and 28.");
 
-        // 3. Set LoanDate to today if not provided
         if (loan.LoanDate == default)
             loan.LoanDate = DateOnly.FromDateTime(DateTime.UtcNow);
 
-        // 4. Normalize amounts to 2 decimals, Calculate monthly amount and DueDate
         loan.Amount = decimal.Round(loan.Amount, 2, MidpointRounding.AwayFromZero);
-        loan.MonthlyAmount = decimal.Round(loan.Amount / loan.Months, 2, MidpointRounding.AwayFromZero);
+        
+        decimal monthlyInterest = decimal.Round(loan.Amount * (loan.InterestRate / 100), 2, MidpointRounding.AwayFromZero);
+        decimal capitalPerMonth = decimal.Round(loan.Amount / loan.Months, 2, MidpointRounding.AwayFromZero);
+        loan.MonthlyAmount = decimal.Round(capitalPerMonth + monthlyInterest, 2, MidpointRounding.AwayFromZero);
         loan.DueDate = loan.LoanDate.AddMonths(loan.Months);
 
-        // 4. Save loan
         _db.Loans.Add(loan);
         await _db.SaveChangesAsync();
 
-        // 5. Generate installments
         var installments = GenerateInstallments(loan);
         _db.Installments.AddRange(installments);
         await _db.SaveChangesAsync();
@@ -164,16 +163,17 @@ public class LoanService
         return true;
     }
 
-    // Helper: Generate installments for a loan
     private List<Installment> GenerateInstallments(Loan loan)
     {
         var installments = new List<Installment>();
+        
+        decimal monthlyInterest = decimal.Round(loan.Amount * (loan.InterestRate / 100), 2, MidpointRounding.AwayFromZero);
+        decimal capitalPerMonth = decimal.Round(loan.Amount / loan.Months, 2, MidpointRounding.AwayFromZero);
+        decimal monthlyPayment = decimal.Round(capitalPerMonth + monthlyInterest, 2, MidpointRounding.AwayFromZero);
 
         for (int i = 1; i <= loan.Months; i++)
         {
-            // Calculate expected payment date (day of month based on PaymentDay)
             var paymentDate = loan.LoanDate.AddMonths(i);
-            // Adjust to PaymentDay if it exists in that month
             paymentDate = new DateOnly(paymentDate.Year, paymentDate.Month, 
                 Math.Min(loan.PaymentDay, DateTime.DaysInMonth(paymentDate.Year, paymentDate.Month)));
 
@@ -182,7 +182,7 @@ public class LoanService
                 LoanId = loan.Id,
                 PeriodNumber = i,
                 ExpectedPaymentDate = paymentDate,
-                ExpectedAmount = decimal.Round(loan.MonthlyAmount, 2, MidpointRounding.AwayFromZero),
+                ExpectedAmount = monthlyPayment,
                 PaidAmount = 0,
                 Status = InstallmentStatus.Pending
             });

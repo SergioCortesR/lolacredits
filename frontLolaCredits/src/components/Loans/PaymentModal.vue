@@ -143,9 +143,6 @@ const handleSubmit = async () => {
     emit('done')
     close()
   } catch (error) {
-    console.error('Error creating payment:', error)
-    
-    // Extract error message from backend response
     const errorMessage = error.response?.data?.message 
       || error.response?.data 
       || 'Error al registrar el pago. Por favor, intente nuevamente.'
