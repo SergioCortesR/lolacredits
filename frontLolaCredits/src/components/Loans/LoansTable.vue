@@ -29,10 +29,10 @@
 
     <!-- Table -->
     <div v-else class="space-y-4">
+      <ConfirmDialog ref="confirmDialog" />
       <!-- Desktop Table -->
       <div class="hidden lg:block overflow-x-auto">
         <table class="w-full border-collapse">
-          <ConfirmDialog ref="confirmDialog" />
           <thead>
             <tr class="bg-gray-100 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-600">
               <th class="px-4 py-3 text-left text-sm font-semibold text-gray-900 dark:text-gray-100">Cliente</th>
@@ -112,7 +112,6 @@
 
       <!-- Mobile Cards -->
       <div class="lg:hidden space-y-4">
-        <ConfirmDialog ref="confirmDialog" />
         <div v-for="loan in loans.items" :key="loan.id"
           class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 space-y-3">
           <div class="flex justify-between items-start">
