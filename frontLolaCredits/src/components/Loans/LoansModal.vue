@@ -31,15 +31,17 @@
         </div>
 
         <div class="grid grid-cols-2 gap-4">
-          <Input v-model="form.amount" label="Monto Préstamo" type="number" step="0.01" placeholder="1000.00" required
-            :disabled="!!editingLoan" />
-          <Input v-model="form.months" label="Meses" type="number" placeholder="12" required :disabled="!!editingLoan" />
+          <Input v-model="form.amount" label="Monto Préstamo" type="number" step="0.01" placeholder="1000.00" 
+            @keypress="onlyNumbers" required :disabled="!!editingLoan" />
+          <Input v-model="form.months" label="Meses" type="number" placeholder="12" 
+            @keypress="onlyPositiveIntegers" required :disabled="!!editingLoan" />
         </div>
 
         <div class="grid grid-cols-2 gap-4">
-          <Input v-model="form.interestRate" label="Interés (%)" type="number" placeholder="10" required />
+          <Input v-model="form.interestRate" label="Interés (%)" type="number" min="0" step="1" placeholder="10" 
+            @keypress="onlyPositiveIntegers" required />
           <Input v-model="form.paymentDay" label="Día de Cobro" type="number" min="1" max="28" placeholder="15"
-            required />
+            @keypress="onlyPositiveIntegers" required />
         </div>
 
         <Input v-model="form.loanDate" label="Fecha de Préstamo" type="date" :disabled="!!editingLoan" />
@@ -222,6 +224,22 @@ const calculateMonthlyPayment = () => {
   const months = parseInt(form.value.months) || 1
   const capitalPerMonth = amount / months
   return capitalPerMonth + calculateMonthlyInterest()
+}
+
+const onlyPositiveIntegers = (event) => {
+  const char = String.fromCharCode(event.keyCode || event.which)
+  // Solo permite números (0-9)
+  if (!/^[0-9]$/.test(char)) {
+    event.preventDefault()
+  }
+}
+
+const onlyNumbers = (event) => {
+  const char = String.fromCharCode(event.keyCode || event.which)
+  // Permite números (0-9) y punto decimal (.)
+  if (!/^[0-9.]$/.test(char)) {
+    event.preventDefault()
+  }
 }
 
 defineExpose({ open })

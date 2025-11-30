@@ -29,36 +29,14 @@
 
     <!-- Table -->
     <div v-else class="space-y-4">
-      <div class="overflow-x-auto">
+      <!-- Desktop Table -->
+      <div class="hidden lg:block overflow-x-auto">
         <table class="w-full border-collapse">
           <ConfirmDialog ref="confirmDialog" />
           <thead>
             <tr class="bg-gray-100 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-600">
               <th class="px-4 py-3 text-left text-sm font-semibold text-gray-900 dark:text-gray-100">Cliente</th>
-              <th class="px-4 py-3 text-left text-sm font-semibold text-gray-900 dark:text-gray-100">CI</th>
               <th class="px-4 py-3 text-left text-sm font-semibold text-gray-900 dark:text-gray-100">Email</th>
-              <th class="px-4 py-3 text-right text-sm font-semibold text-gray-900 dark:text-gray-100">
-                <div class="flex items-center justify-end gap-2 cursor-pointer" @click="toggleSort('Amount')">
-                  Monto
-                  <svg v-if="filters.sort === 'Amount'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
-                    viewBox="0 0 24 24" stroke="currentColor">
-                    <path v-if="filters.dir === 'asc'" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M5 15l7-7 7 7" />
-                    <path v-else stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                  </svg>
-                </div>
-              </th>
-              <th class="px-4 py-3 text-center text-sm font-semibold text-gray-900 dark:text-gray-100">
-                <div class="flex items-center justify-center gap-2 cursor-pointer" @click="toggleSort('Months')">
-                  Meses
-                  <svg v-if="filters.sort === 'Months'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
-                    viewBox="0 0 24 24" stroke="currentColor">
-                    <path v-if="filters.dir === 'asc'" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M5 15l7-7 7 7" />
-                    <path v-else stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                  </svg>
-                </div>
-              </th>
               <th class="px-4 py-3 text-center text-sm font-semibold text-gray-900 dark:text-gray-100">
                 <div class="flex items-center justify-center gap-2 cursor-pointer" @click="toggleSort('InterestRate')">
                   Interés
@@ -70,10 +48,10 @@
                   </svg>
                 </div>
               </th>
-              <th class="px-4 py-3 text-left text-sm font-semibold text-gray-900 dark:text-gray-100">
-                <div class="flex items-center gap-2 cursor-pointer" @click="toggleSort('LoanDate')">
-                  Fecha Préstamo
-                  <svg v-if="filters.sort === 'LoanDate'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+              <th class="px-4 py-3 text-right text-sm font-semibold text-gray-900 dark:text-gray-100">
+                <div class="flex items-center justify-end gap-2 cursor-pointer" @click="toggleSort('Amount')">
+                  Monto a Pagar
+                  <svg v-if="filters.sort === 'Amount'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
                     viewBox="0 0 24 24" stroke="currentColor">
                     <path v-if="filters.dir === 'asc'" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                       d="M5 15l7-7 7 7" />
@@ -81,23 +59,22 @@
                   </svg>
                 </div>
               </th>
-              <th class="px-4 py-3 text-right text-sm font-semibold text-gray-900 dark:text-gray-100">Cuota Mensual</th>
-              <th class="px-4 py-3 text-center text-sm font-semibold text-gray-900 dark:text-gray-100">Estado</th>
+              <th class="px-4 py-3 text-right text-sm font-semibold text-gray-900 dark:text-gray-100">Monto Pagado</th>
+              <th class="px-4 py-3 text-right text-sm font-semibold text-gray-900 dark:text-gray-100">Monto Final</th>
+              <th class="px-4 py-3 text-center text-sm font-semibold text-gray-900 dark:text-gray-100 whitespace-nowrap">Estado</th>
               <th class="px-4 py-3 text-center text-sm font-semibold text-gray-900 dark:text-gray-100">Acciones</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="loan in loans.items" :key="loan.id" class="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50">
               <td class="px-4 py-3 text-sm text-gray-700 dark:text-gray-300">{{ loan.personName }}</td>
-              <td class="px-4 py-3 text-sm text-gray-600 dark:text-gray-400">{{ loan.personCI }}</td>
               <td class="px-4 py-3 text-sm text-gray-600 dark:text-gray-400">{{ loan.personEmail }}</td>
-              <td class="px-4 py-3 text-sm text-gray-700 dark:text-gray-300 text-right">${{ formatCurrency(loan.amount) }}</td>
-              <td class="px-4 py-3 text-sm text-gray-600 dark:text-gray-400 text-center">{{ loan.months }}</td>
               <td class="px-4 py-3 text-sm text-gray-600 dark:text-gray-400 text-center">{{ loan.interestRate }}%</td>
-              <td class="px-4 py-3 text-sm text-gray-600 dark:text-gray-400">{{ formatDate(loan.loanDate) }}</td>
-              <td class="px-4 py-3 text-sm text-gray-700 dark:text-gray-300 text-right">${{ formatCurrency(loan.monthlyAmount) }}</td>
+              <td class="px-4 py-3 text-sm text-gray-700 dark:text-gray-300 text-right">${{ formatCurrency(calculateTotalToPay(loan)) }}</td>
+              <td class="px-4 py-3 text-sm text-emerald-600 dark:text-emerald-400 text-right">${{ formatCurrency(calculatePaidAmount(loan)) }}</td>
+              <td class="px-4 py-3 text-sm text-gray-700 dark:text-gray-300 text-right font-semibold">${{ formatCurrency(loan.amount + (loan.amount * (loan.interestRate / 100) * loan.months)) }}</td>
               <td class="px-4 py-3 text-center">
-                <span :class="getStatusClass(loan)" class="px-2 py-1 rounded-full text-xs font-medium">
+                <span :class="getStatusClass(loan)" class="px-2 py-1 rounded-full text-xs font-medium whitespace-nowrap inline-block">
                   {{ getStatusText(loan) }}
                 </span>
               </td>
@@ -131,6 +108,65 @@
             </tr>
           </tbody>
         </table>
+      </div>
+
+      <!-- Mobile Cards -->
+      <div class="lg:hidden space-y-4">
+        <ConfirmDialog ref="confirmDialog" />
+        <div v-for="loan in loans.items" :key="loan.id"
+          class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 space-y-3">
+          <div class="flex justify-between items-start">
+            <div>
+              <h3 class="font-semibold text-gray-900 dark:text-gray-100">{{ loan.personName }}</h3>
+              <p class="text-sm text-gray-600 dark:text-gray-400">CI: {{ loan.personCI }}</p>
+              <p class="text-sm text-gray-600 dark:text-gray-400">{{ loan.personEmail }}</p>
+            </div>
+            <span :class="getStatusClass(loan)" class="px-2 py-1 rounded-full text-xs font-medium whitespace-nowrap">
+              {{ getStatusText(loan) }}
+            </span>
+          </div>
+          
+          <div class="grid grid-cols-2 gap-3 text-sm">
+            <div>
+              <span class="text-gray-600 dark:text-gray-400">Interés:</span>
+              <p class="font-semibold text-gray-900 dark:text-gray-100">{{ loan.interestRate }}%</p>
+            </div>
+            <div>
+              <span class="text-gray-600 dark:text-gray-400">Monto a Pagar:</span>
+              <p class="font-semibold text-gray-900 dark:text-gray-100">${{ formatCurrency(calculateTotalToPay(loan)) }}</p>
+            </div>
+            <div>
+              <span class="text-gray-600 dark:text-gray-400">Monto Pagado:</span>
+              <p class="font-semibold text-emerald-600 dark:text-emerald-400">${{ formatCurrency(calculatePaidAmount(loan)) }}</p>
+            </div>
+            <div>
+              <span class="text-gray-600 dark:text-gray-400">Monto Final:</span>
+              <p class="font-semibold text-gray-900 dark:text-gray-100">${{ formatCurrency(loan.amount + (loan.amount * (loan.interestRate / 100) * loan.months)) }}</p>
+            </div>
+          </div>
+
+          <div class="flex gap-2 pt-2 border-t border-gray-200 dark:border-gray-700">
+            <button @click="handleViewInstallments(loan)"
+              class="flex-1 px-3 py-2 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 rounded-lg text-sm font-medium hover:bg-indigo-100 dark:hover:bg-indigo-900/40 transition-colors flex items-center justify-center gap-1">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z" />
+              </svg>
+              Cuotas
+            </button>
+            <button @click="handleEdit(loan)"
+              class="px-3 py-2 bg-sky-50 dark:bg-sky-900/20 text-sky-600 dark:text-sky-400 rounded-lg text-sm font-medium hover:bg-sky-100 dark:hover:bg-sky-900/40 transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
+              </svg>
+            </button>
+            <button @click="handleDelete(loan.id)"
+              class="px-3 py-2 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-lg text-sm font-medium hover:bg-red-100 dark:hover:bg-red-900/40 transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+              </svg>
+            </button>
+          </div>
+        </div>
       </div>
 
       <!-- Pagination -->
@@ -324,5 +360,16 @@ const handleCreate = () => {
 
 const handleViewInstallments = (loan) => {
   emit('viewInstallments', loan)
+}
+
+const calculateTotalToPay = (loan) => {
+  // Total = Capital + Interés total
+  return loan.amount + (loan.amount * (loan.interestRate / 100) * loan.months)
+}
+
+const calculatePaidAmount = (loan) => {
+  // Aproximación: cuotas pagadas * monto mensual
+  const paidInstallments = loan.paidInstallments || 0
+  return paidInstallments * loan.monthlyAmount
 }
 </script>
