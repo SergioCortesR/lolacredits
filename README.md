@@ -2,6 +2,8 @@
 
 Loan management system with installments and payment tracking — built with .NET 8 backend and Vue 3 frontend.
 
+See this project running on https://lolacredits.vercel.app/
+
 ## Overview
 - **Backend:** `backLolaCredits/` (.NET 8 Web API + EF Core + SQLite)
 - **Frontend:** `frontLolaCredits/` (Vue 3 + Vite + Tailwind CSS)
